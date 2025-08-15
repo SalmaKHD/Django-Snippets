@@ -21,5 +21,5 @@ from django.urls import include
 # this is used for lookiing for paths when the user enters the url
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('movies/', include('movies.url')) # specify that direct requests that start with movies/ to urls.py file in movies app
+    path('movies/', include('movies.urls')) # specify that direct requests that start with movies/ to urls.py file in movies app
 ]

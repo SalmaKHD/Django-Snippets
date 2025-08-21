@@ -1,0 +1,10 @@
+<h1>Hello World</h1>
+<table>
+    {% for movie in movies %}
+    <tr>
+      <td>{{ movie.title }}</td>
+      <td>{{ movie.genre }}</td>
+      <td>{{ movie.number_in_stock }}</td>
+    </tr>
+    {% endfor %}
+</table>

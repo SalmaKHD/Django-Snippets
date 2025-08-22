@@ -1,10 +1,24 @@
-<h1>Hello World</h1>
-<table>
-    {% for movie in movies %}
-    <tr>
-      <td>{{ movie.title }}</td>
-      <td>{{ movie.genre }}</td>
-      <td>{{ movie.number_in_stock }}</td>
-    </tr>
-    {% endfor %}
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Stock</th>
+            <th>Daily Rent</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in movies %}
+        <tr>
+          <td>{{ movie.title }}</td>
+          <td>{{ movie.genre }}</td>
+          <td>{{ movie.number_in_stock }}</td>
+          <td>{{ movie.daily_rent }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
+{% endblock %}

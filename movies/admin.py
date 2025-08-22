@@ -7,7 +7,7 @@ class GenreAdmin(admin.ModelAdmin):
 
 class MovieAdmin(admin.ModelAdmin):
     exclude = ('date_created', )
-    list_display = ('title', 'number_in_stock', 'daily_rate') # customizes column display for records in this table
+    list_display = ('title', 'number_in_stock', 'daily_rent') # customizes column display for records in this table
 
 # Register your models here.
 admin.site.register(Genre, GenreAdmin)

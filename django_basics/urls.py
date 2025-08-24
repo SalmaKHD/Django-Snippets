@@ -18,12 +18,14 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 
+from . import views
 from api.models import MovieResource
+from .views import home
 
 # this is used for lookiing for paths when the user enters the url
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('movies/', include('movies.urls')), # specify that direct requests that start with movies/ to urls.py file in movies app
     path('api/', include(MovieResource().urls)),
-    path('', include('views.home'))
+    path('', views.home)
 ]

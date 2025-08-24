@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <a href="{% url 'movies:url' %}">Movies</a>
+<!-- include a url from views in href -->
+    <a href="{% url 'movies:template' %}">Movies</a>
 {% endblock %}

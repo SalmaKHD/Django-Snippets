@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <table class="table table-bordered table-hover">
     <thead>
@@ -13,12 +12,14 @@
     <tbody>
         {% for movie in movies %}
         <tr>
-        <!-- movies:detail referes to url with the name: movies_detail  -->
+        <!-- movies:detail referees to url with the name: movies_detail  -->
           <td><a href="{% url 'movies:detail' movie.id %}">{{ movie.title }}</a></td>
           <td>{{ movie.genre }}</td>
           <td>{{ movie.number_in_stock }}</td>
           <td>{{ movie.daily_rent }}</td>
         </tr>
+        {% empty %}
+            <h1>No Posts Available at This Time</h1>
         {% endfor %}
     </tbody>
 </table>

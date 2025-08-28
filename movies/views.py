@@ -1,5 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
+from twilio.twiml.voice_response import Config
 
 from .models import Movie
 
@@ -20,5 +22,15 @@ def template(request):
 def detail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     return render(request, 'movies/detail.html', {'movie': movie})
+
+def purchase(request):
+    # under construction
+    raise Http404() # will show default 404.html page if not in debug mode
+    # return HttpResponseNotFound("Not Available")
+
+def details(request, movie_id):
+    return HttpResponseRedirect(reverse('movie_detail', args=[movie_id]))
+    # return HttpResponseRedirect(f'/movies/{movie_id}')
+
 
 

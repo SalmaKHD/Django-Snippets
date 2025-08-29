@@ -18,6 +18,9 @@ class Movie(models.Model):
     daily_rent = models.FloatField()
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
+    # alternative way to create date time field that will be automatically filled
+    # date_edited = models.DateTimeField(auto_now=True)
+    description = models.TextField()
 
     def __str__(self):
         return self.title

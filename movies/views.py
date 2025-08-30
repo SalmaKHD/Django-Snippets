@@ -1,7 +1,7 @@
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from twilio.twiml.voice_response import Config
 
 from .models import Movie, Genre
 
@@ -17,7 +17,55 @@ def index(request):
 
 
 def template(request):
+    # returns a query set, all lazy: not executed until accessed
     movies = Movie.objects.all()
+    # queryset methods (for querying the database)
+    # get object by id
+    print(movies.get(id=1))  # will raise an exception if more than 1 obj or no obj
+    # get objects matching a condition
+    print(Movie.objects.filter(title="Titanic"))
+    # get objects not matching a condition
+    print(Movie.objects.exclude(title="The Office")) # returns a query set
+    # get access to first object (works like a list)
+    print(movies[0]) # returns an object
+    # get objects by order
+    print(Movie.objects.order_by('title'))
+    print(Movie.objects.order_by('-title')) # for reverse order
+    print(Movie.objects.order_by('title').reverse())
+    # get objects as a dictionary list
+    print(Movie.objects.values())
+    # get row count
+    print(Movie.objects.count())
+    # get first object
+    print(Movie.objects.first())
+    print(Movie.objects.last())
+    titanic = Movie.objects.get(title="The Office") # throws an exception if it does not exist
+    print(Movie.objects.contains(titanic))
+    # compound conditions
+    print(movies.filter(title="Titanic") & movies.filter(release_year=1876))
+    print(movies.filter(title="Titanic") | movies.filter(title="The Office"))
+    # use Q object to query the database
+    print(movies.filter(Q(title="Titanic") | ~Q(title="The Office")))
+    # slicing
+    print(movies[1:2])
+    # field look-up queries
+    # field lookups: Model.objects.filter(field__lookup=)
+    print(Movie.objects.filter(title__gt='T')) # field look up
+    print(Movie.objects.filter(title__istartswith='T')) # field look up
+    print(Movie.objects.filter(id__in=[1,2])) # field look up
+    # update a row in table
+    movie = Movie.objects.get(pk=1)
+    movie.title = "Titanicc"
+    movie.save()
+    # update multiple rows
+    Movie.objects.filter(title__startswith="The").update(release_year=1954)
+    print(Movie.objects.get(id=4).release_year)
+    # delete an object or objects
+    Movie.objects.create(
+        title="Something", release_year=1991, number_in_stock=12, daily_rent=45.0,
+        genre=Genre.objects.get(pk=1), description="some movie"
+    )
+    Movie.objects.filter(title="Something").delete()
     return render(request, 'movies/template.html', {'movies': movies})
 
 

@@ -29,3 +29,6 @@ urlpatterns = [
     path('api/', include(MovieResource().urls)),
     path('', views.home)
 ]
+
+admin.site.site_header = 'Movies Admin'
+admin.site.index_title = 'Movies Admin'

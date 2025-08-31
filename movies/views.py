@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.db.models.aggregates import Max, Min
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -66,6 +67,8 @@ def template(request):
         genre=Genre.objects.get(pk=1), description="some movie"
     )
     Movie.objects.filter(title="Something").delete()
+    # aggregation in Django
+    print(Movie.objects.all().aggregate(max=Max('daily_rent'), min=Min('daily_rent')))
     return render(request, 'movies/template.html', {'movies': movies})
 
 

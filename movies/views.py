@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from .forms import MoviesForm
+from .forms import MoviesForm, MovieFormModel
 from .models import Movie, Genre
 
 
@@ -95,11 +95,44 @@ def new(request, title, release_year, number_in_stock, daily_rent, genre, descri
     return HttpResponse("Insertion successful!")
 
 def movie_form(request):
-    form = MoviesForm(request.POST) # store data in form
+    form = MoviesForm(request.POST) # store data in form    form = MovieFormModel(request.POST)
     if form.is_valid(): # if form is valid, continue
         print(form.cleaned_data)
+        # save movie to database
+        Movie.objects.create(
+            title=form.cleaned_data['title'],
+            release_year=form.cleaned_data['release_year'],
+            number_in_stock=form.cleaned_data['number_in_stock'],
+            daily_rent=form.cleaned_data['daily_rent'],
+            genre = Genre.objects.get(pk=1),
+            description=form.cleaned_data['description']
+        )
+        # form.save()
         return HttpResponseRedirect('thank_you')
     return render(request, 'movies/form.html', {'form': form}) # return form again if invalid
 
 def thank_you(request):
     return HttpResponse("Thank you for submitting!")
+
+def update_movie(request, movie_id):
+    movie = Movie.objects.get(pk=movie_id)
+    if request.method == 'POST':
+        form = MoviesForm(request.POST)
+        if form.is_valid():
+            movie.title = form.cleaned_data['title']
+            movie.release_year = form.cleaned_data['release_year']
+            movie.number_in_stock = form.cleaned_data['number_in_stock']
+            movie.daily_rent = form.cleaned_data['daily_rent']
+            movie.description = form.cleaned_data['description']
+            movie.save()
+            print(movie.description)
+            return HttpResponse("Form saved successfully")
+
+    form = MoviesForm(initial={'title':movie.title,
+                                   'release_year':movie.release_year,
+                                   'number_in_stock':movie.number_in_stock,
+                                   'daily_rent': movie.daily_rent,
+                                   'description': movie.description
+                                   }
+                          )
+    return render(request, 'movies/form.html', {'form': form})

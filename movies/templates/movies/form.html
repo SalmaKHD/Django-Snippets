@@ -9,6 +9,7 @@
     <h1>Movies Form</h1>
     <form action = "" method="POST">
         {% csrf_token %}
+        <h1>{{ field.non_field_errors }}</h1>
         <table>
             {% for field in form %}
                 <tr>

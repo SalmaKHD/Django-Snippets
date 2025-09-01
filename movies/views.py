@@ -17,6 +17,17 @@ def index(request):
     output = ', '.join([movie.title for movie in movies])
     return HttpResponse(movies)
 
+def cookie(request):
+    # set cookie
+    # set a cookie, alive for current session only
+    response = HttpResponse("Set")
+    response.set_cookie('theme', 'dark', max_age=5, httponly=True, secure=True) # won't set cookies otherwise
+    response.set_cookie('name', 'Rahul')
+    # get cookie
+    print(request.COOKIES['name'])
+    response.delete_cookie('name')
+    # print(request.COOKIES['name'])
+    return HttpResponse('Cookie Operations Done!')
 
 def template(request):
     # returns a query set, all lazy: not executed until accessed

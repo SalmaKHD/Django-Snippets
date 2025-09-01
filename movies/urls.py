@@ -1,4 +1,5 @@
 from django.urls import path
+
 from . import views
 
 # no need for specifying a prefix for each path
@@ -15,5 +16,6 @@ urlpatterns = [
     path('new/<str:title>/<int:release_year>/<int:number_in_stock>/<int:daily_rent>/<str:genre>/<str:description>', views.new, name="new"),
     path('movie_form', views.movie_form),
     path('thank_you', views.thank_you),
-    path('update/<int:movie_id>', views.update_movie)
+    path('update/<int:movie_id>', views.update_movie),
+    path('cookie', views.cookie)
 ]

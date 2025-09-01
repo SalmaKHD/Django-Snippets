@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vidly</title>
+</head>
+<body>
+    <h1>Movies Form</h1>
+    <form action = "" method="POST">
+        {% csrf_token %}
+        <table>
+            {% for field in form %}
+                <tr>
+                    <div>
+                        {{field.label_tag}}
+                        {{field}}
+                        {{field.errors}}
+                        <span>{{field.helper_text}}</span>
+                    </div>
+                </tr>
+            {% endfor %}
+        </table>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

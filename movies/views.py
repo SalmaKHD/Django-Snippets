@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
+from .forms import MoviesForm
 from .models import Movie, Genre
 
 
@@ -92,3 +93,13 @@ def new(request, title, release_year, number_in_stock, daily_rent, genre, descri
     Movie.objects.create(title=title, release_year=release_year, number_in_stock=number_in_stock, daily_rent=daily_rent,
                          genre=Genre.objects.get(pk=1) if genre == "Romantic" else Genre.objects.get(pk=2), description=description)
     return HttpResponse("Insertion successful!")
+
+def movie_form(request):
+    form = MoviesForm(request.POST) # store data in form
+    if form.is_valid(): # if form is valid, continue
+        print(form.cleaned_data)
+        return HttpResponseRedirect('thank_you')
+    return render(request, 'movies/form.html', {'form': form}) # return form again if invalid
+
+def thank_you(request):
+    return HttpResponse("Thank you for submitting!")

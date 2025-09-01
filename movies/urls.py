@@ -12,5 +12,7 @@ urlpatterns = [
     path('<int:movie_id>', views.detail, name='detail'), # names useful when changing path names later on
     path('details/<int:movie_id>', views.details, name='details'),
     path('purchase', views.purchase, name='purchase'),
-    path('new/<str:title>/<int:release_year>/<int:number_in_stock>/<int:daily_rent>/<str:genre>/<str:description>', views.new, name="new")
+    path('new/<str:title>/<int:release_year>/<int:number_in_stock>/<int:daily_rent>/<str:genre>/<str:description>', views.new, name="new"),
+    path('movie_form', views.movie_form),
+    path('thank_you', views.thank_you)
 ]

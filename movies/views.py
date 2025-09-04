@@ -2,6 +2,7 @@ from django.db.models import Q
 from django.db.models.aggregates import Max, Min
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
+from django.template.response import TemplateResponse
 from django.urls import reverse
 
 from .forms import MoviesForm, MovieFormModel
@@ -28,6 +29,20 @@ def cookie(request):
     response.delete_cookie('name')
     # print(request.COOKIES['name'])
     return HttpResponse('Cookie Operations Done!')
+
+def session(request):
+    request.session['id'] = 20
+    session_id = request.session['id']
+    # delete entire session
+    # request.session.flush()
+    request.session.set_expiry(20) # default is 2 weeks
+    request.session.clear_expired()
+    request.session['dict'] = {'name': 'Titanic'}
+    request.session['dict']['name'] = 'The Office'
+    # we have to save changes in this case
+    request.session.modifier = True
+    print(f'Name of movie is: {request.session['dict']['name']}')
+    return HttpResponse(f"Session started. Session id is: {session_id}")
 
 def template(request):
     # returns a query set, all lazy: not executed until accessed
@@ -147,3 +162,6 @@ def update_movie(request, movie_id):
                                    }
                           )
     return render(request, 'movies/form.html', {'form': form})
+
+def hook_template(request):
+    return TemplateResponse(request, 'movies/hook_template.html', {"name": "The Office"})

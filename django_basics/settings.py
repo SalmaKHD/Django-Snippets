@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os.path
 from pathlib import Path
 
+from django.conf.global_settings import SESSION_COOKIE_AGE, SESSION_EXPIRE_AT_BROWSER_CLOSE
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -49,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'movies.middleware.CustomFunctionMiddleware',
+    # 'movies.middleware.CustomFunctionMiddleware',
     'movies.middleware.CustomClassMiddleware',
 ]
 
@@ -129,3 +131,5 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SESSION_COOKIE_AGE = 20
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True # session will expire upon browser close

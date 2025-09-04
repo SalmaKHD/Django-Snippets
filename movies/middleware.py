@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+
 
 def CustomFunctionMiddleware(get_response):
     # one-time config or initialization
@@ -6,7 +8,9 @@ def CustomFunctionMiddleware(get_response):
     def middleware(request):
         # code that is executed before next middleware or view
         print("middleware1 -> before next layer")
-        response = get_response(request)
+        # return response from URL
+        response = HttpResponse("Returning from Middleware Layer 1")
+        # response = get_response(request)
         print("middleware 1 -> after next layer")
         # code executed after next layer
         return response
@@ -24,4 +28,23 @@ class CustomClassMiddleware:
         response = self.get_response(request)
         print("middleware 2 -> after next layer")
         # code executed after next layer
+        return response
+
+    def process_view(self, request, view_func, view_args, view_kwargs):
+        print("Called just before the view")
+        print("The HTTP method is: " + request.method)
+        print("Name of the called view is:" + view_func.__name__)
+        return None
+
+    def process_exception(self, request, exception):
+        # may return None or HttpResponse
+        # has access to the exception raised in view
+        print(f"Exception raised in {exception}")
+        return HttpResponse("An Exception occurred!")
+
+    def process_template_response(self, request, response):
+        print("Template response called")
+        # can change context member values in this hook
+        response.context_data['context_from_template_hook'] = "Titanic is among popular movies"
+        response.context_data["name"] = "Titanic"
         return response

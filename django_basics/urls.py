@@ -27,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('movies/', include('movies.urls')), # specify that direct requests that start with movies/ to urls.py file in movies app
     path('api/', include(MovieResource().urls)),
-    path('', views.home)
+    path('', views.home),
 ]
 
 admin.site.site_header = 'Movies Admin'

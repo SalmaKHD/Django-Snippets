@@ -8,6 +8,8 @@ app_name = 'movies' # for not having to prefix url names with app name to avoid 
 # define url config
 urlpatterns = [
     path('', views.index, name='index'), # represents the root of urls that this path object will handle
+    path('cookie', views.cookie),
+    path('session', views.session),
     path('template', views.template, name='template'),
     # a path that is an int
     path('<int:movie_id>', views.detail, name='detail'), # names useful when changing path names later on
@@ -17,5 +19,5 @@ urlpatterns = [
     path('movie_form', views.movie_form),
     path('thank_you', views.thank_you),
     path('update/<int:movie_id>', views.update_movie),
-    path('cookie', views.cookie)
+    path('hook-template', views.hook_template)
 ]

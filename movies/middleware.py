@@ -36,11 +36,11 @@ class CustomClassMiddleware:
         print("Name of the called view is:" + view_func.__name__)
         return None
 
-    def process_exception(self, request, exception):
-        # may return None or HttpResponse
-        # has access to the exception raised in view
-        print(f"Exception raised in {exception}")
-        return HttpResponse("An Exception occurred!")
+    # def process_exception(self, request, exception):
+    #     # may return None or HttpResponse
+    #     # has access to the exception raised in view
+    #     print(f"Exception raised in {exception}")
+    #     return HttpResponse("An Exception occurred!")
 
     def process_template_response(self, request, response):
         print("Template response called")

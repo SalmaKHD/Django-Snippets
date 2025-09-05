@@ -11,7 +11,13 @@
 <body class="body">
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
-    <span class="navbar-brand mb-0 h1">Vidly</span>
+      {% if user.is_authenticated %}
+      <span class="navbar-brand mb-0 h1">Vidly, Welcome Back {{user.get_full_name}}</span>
+      <a href="{% url 'accounts:logout' %}">Logout</a>
+      {% else %}
+      <span class="navbar-brand mb-0 h1">Vidly, Welcome Guest!</span>
+      <a href="{% url 'accounts:login' %} ">Login</a>
+      {% endif %}
   </div>
 </nav>
 <menu>

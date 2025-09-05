@@ -16,7 +16,10 @@ class Movie(models.Model):
     release_year = models.IntegerField()
     number_in_stock = models.IntegerField()
     daily_rent = models.FloatField()
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    # may be set_null / protect also
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE) # one-to-one relationship
+    # another way of defining
+    # genre = models.OneToOneField(Genre, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
     # alternative way to create date time field that will be automatically filled
     # date_edited = models.DateTimeField(auto_now=True)

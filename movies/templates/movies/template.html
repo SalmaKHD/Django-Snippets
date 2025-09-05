@@ -23,4 +23,13 @@
         {% endfor %}
     </tbody>
 </table>
+<nav>
+    {% if movies.has_previous %}
+        <li><a href="?p={{movies.previous_page_number}}">Previous</a></li>
+    {% endif %}
+    {% if movies.has_next %}
+        <li><a href="?p={{movies.next_page_number}}">Next</a></li>
+    {% endif %}
+</nav>
+
 {% endblock %}

@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 from .forms import MoviesForm, MovieFormModel
 from .models import Movie, Genre
@@ -46,7 +47,10 @@ def session(request):
 
 def template(request):
     # returns a query set, all lazy: not executed until accessed
-    movies = Movie.objects.all()
+    movies = Movie.objects.all().order_by('id')
+    paginator = Paginator(movies, 4, orphans=0, allow_empty_first_page=True)
+    page_number = request.GET.get('p', 1) # access p parameter in request
+    page_obj = paginator.get_page(page_number) # it will return the last page if nothing exists
     # queryset methods (for querying the database)
     # get object by id
     print(movies.get(id=1))  # will raise an exception if more than 1 obj or no obj
@@ -96,7 +100,7 @@ def template(request):
     Movie.objects.filter(title="Something").delete()
     # aggregation in Django
     print(Movie.objects.all().aggregate(max=Max('daily_rent'), min=Min('daily_rent')))
-    return render(request, 'movies/template.html', {'movies': movies})
+    return render(request, 'movies/template.html', {'movies': page_obj})
 
 
 def detail(request, movie_id):

@@ -10,6 +10,7 @@ class Genre(models.Model):  # all functionalities for storing data in db are alr
         return self.name  # to change representation of obj in panel (when adding a record for example)
 
 
+
 # any class inheriting from the Model class represents a table in db
 class Movie(models.Model):
     title = models.CharField(max_length=255)

@@ -1,6 +1,3 @@
-# Movies Website
-![MergedImages](https://github.com/user-attachments/assets/e16d6cf2-60a2-4b5b-9c88-fd9f768ad206)
-
 ## Overview
 A simple website to demonstrate basic functionalities of the Django framework.
 
@@ -24,9 +21,12 @@ Tech Stack
 - Pillow for image upload
 
 ## Future Enhancements
-- Offline caching
-- Dark Mode
-- Unit Tests & UI Tests
+- better styling
+- tests for all features
+
+# Screenshots
+![home_search](https://github.com/user-attachments/assets/071caf63-4a94-47ad-adec-28c04908f815)
+![detail_new-movie_reg-form](https://github.com/user-attachments/assets/6f7955aa-114d-4f26-a8ac-b45837e0ba73)
 
 ## License
 Licensed under the MIT License.

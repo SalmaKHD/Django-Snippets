@@ -1,47 +1,58 @@
 {% extends 'base.html' %}
 {% block content %}
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Genre</th>
-            <th>Tags</th>
-            <th>Stock</th>
-            <th>Daily Rent</th>
-            <th>Cover</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for movie in movies %}
-        <tr>
-        <!-- movies:detail referees to url with the name: movies_detail  -->
-          <td><a href="{% url 'movies:detail' movie.id %}">{{ movie.title }}</a></td>
-          <td>{{ movie.genre }}</td>
-          {% if movie.tags %}}
-          <td>
-              {% for tag in movie.tags.all %}
-                {{ tag }}
-              {% endfor %}
-          </td>
-          {% endif %}
-          <td>{{ movie.number_in_stock }}</td>
-          <td>{{ movie.daily_rent }}</td>
-          {% if movie.image %}
-          <td><img src="{{ movie.image.url }}" width="100" alt=""></td>
-          {% endif %}
-        </tr>
-        {% empty %}
-            <h1>No Posts Available at This Time</h1>
-        {% endfor %}
-    </tbody>
-</table>
-<nav>
-    {% if movies.has_previous %}
-        <li><a href="?p={{movies.previous_page_number}}">Previous</a></li>
-    {% endif %}
-    {% if movies.has_next %}
-        <li><a href="?p={{movies.next_page_number}}">Next</a></li>
-    {% endif %}
-</nav>
+<form action='{% url "movies:template" %}'>
+    <label>
+        <input type="text" name="query">
+    </label>
+    <button>Search</button>
+    <h1></h1>
+</form>
 
+{% if movies %}
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Tags</th>
+                <th>Stock</th>
+                <th>Daily Rent</th>
+                <th>Cover</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movie in movies %}
+            <tr>
+            <!-- movies:detail referees to url with the name: movies_detail  -->
+              <td><a href="{% url 'movies:detail' movie.id %}">{{ movie.title }}</a></td>
+              <td>{{ movie.genre }}</td>
+              {% if movie.tags %}
+              <td>
+                  {% for tag in movie.tags.all %}
+                    {{ tag }}
+                  {% endfor %}
+              </td>
+              {% endif %}
+              <td>{{ movie.number_in_stock }}</td>
+              <td>{{ movie.daily_rent }}</td>
+              {% if movie.image %}
+              <td><img src="{{ movie.image.url }}" width="100" alt=""></td>
+              {% endif %}
+            </tr>
+            {% empty %}
+                <h1>No Posts Available at This Time</h1>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav>
+        {% if movies.has_previous %}
+            <li><a href="?p={{movies.previous_page_number}}&query={{ query }}">Previous</a></li>
+        {% endif %}
+        {% if movies.has_next %}
+            <li><a href="?p={{movies.next_page_number}}&query={{ query }}">Next</a></li>
+        {% endif %}
+    </nav>
+{% else %}
+    <h1 class="helptext">No Results!</h1>
+{% endif %}
 {% endblock %}

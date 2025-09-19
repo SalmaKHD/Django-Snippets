@@ -46,23 +46,35 @@ def session(request):
     return HttpResponse(f"Session started. Session id is: {session_id}")
 
 def template(request):
-    # returns a query set, all lazy: not executed until accessed
-    movies = Movie.objects.all().order_by('id')
-    paginator = Paginator(movies, 4, orphans=0, allow_empty_first_page=True)
+    query = request.GET.get('query', None)
+    per_page_item_number = 4
+    if query:
+        movies = Movie.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).order_by('id')
+        paginator = Paginator(movies, per_page_item_number)
+    else:
+        # returns a query set, all lazy: not executed until accessed
+        movies = Movie.objects.all().order_by('id')
+        paginator = Paginator(movies, per_page_item_number, orphans=0, allow_empty_first_page=True)
+
     page_number = request.GET.get('p', 1) # access p parameter in request
-    page_obj = paginator.get_page(page_number) # it will return the last page if nothing exists
+    movies_result = paginator.get_page(page_number) # it will return the last page if nothing exists
     # queryset methods (for querying the database)
+    return render(request, 'movies/template.html', {'movies': movies_result, 'query': query})
+
+def example_queries():
+    # *** example db operations ***
+    movies = Movie.objects.all().order_by('id')
     # get object by id
     print(movies.get(id=4))  # will raise an exception if more than 1 obj or no obj
     # get objects matching a condition
     print(Movie.objects.filter(title="Titanic"))
     # get objects not matching a condition
-    print(Movie.objects.exclude(title="The Office")) # returns a query set
+    print(Movie.objects.exclude(title="The Office"))  # returns a query set
     # get access to first object (works like a list)
-    print(movies[0]) # returns an object
+    print(movies[0])  # returns an object
     # get objects by order
     print(Movie.objects.order_by('title'))
-    print(Movie.objects.order_by('-title')) # for reverse order
+    print(Movie.objects.order_by('-title'))  # for reverse order
     print(Movie.objects.order_by('title').reverse())
     # get objects as a dictionary list
     print(Movie.objects.values())
@@ -71,7 +83,7 @@ def template(request):
     # get first object
     print(Movie.objects.first())
     print(Movie.objects.last())
-    titanic = Movie.objects.get(title="The Office") # throws an exception if it does not exist
+    titanic = Movie.objects.get(title="The Office")  # throws an exception if it does not exist
     print(Movie.objects.contains(titanic))
     # compound conditions
     print(movies.filter(title="Titanic") & movies.filter(release_year=1876))
@@ -82,9 +94,9 @@ def template(request):
     print(movies[1:2])
     # field look-up queries
     # field lookups: Model.objects.filter(field__lookup=)
-    print(Movie.objects.filter(title__gt='T')) # field look up
-    print(Movie.objects.filter(title__istartswith='T')) # field look up
-    print(Movie.objects.filter(id__in=[1,2])) # field look up
+    print(Movie.objects.filter(title__gt='T'))  # field look up
+    print(Movie.objects.filter(title__istartswith='T'))  # field look up
+    print(Movie.objects.filter(id__in=[1, 2]))  # field look up
     # update a row in table
     movie = Movie.objects.get(pk=4)
     movie.title = "Titanicc"
@@ -100,8 +112,7 @@ def template(request):
     Movie.objects.filter(title="Something").delete()
     # aggregation in Django
     print(Movie.objects.all().aggregate(max=Max('daily_rent'), min=Min('daily_rent')))
-    return render(request, 'movies/template.html', {'movies': page_obj})
-
+    # *** example db operations end ***
 
 def detail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)

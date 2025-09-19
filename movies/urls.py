@@ -22,5 +22,5 @@ urlpatterns = [
     path('update/<int:movie_id>', views.update_movie),
     path('hook-template', views.hook_template),
     path('<str:genre>', views.get_movies_with_genre),
-    path("example_queries", views.example_queries())
+    path("example_queries", views.example_queries)
 ]

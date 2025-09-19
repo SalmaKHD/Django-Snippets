@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os.path
 from pathlib import Path
 
-from django.conf.global_settings import SESSION_COOKIE_AGE, SESSION_EXPIRE_AT_BROWSER_CLOSE
+from django.conf.global_settings import SESSION_COOKIE_AGE, SESSION_EXPIRE_AT_BROWSER_CLOSE, MEDIA_ROOT, MEDIA_URL
+from django.template.context_processors import media
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,3 +135,5 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE = 60
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True # session will expire upon browser close
+MEDIA_ROOT = BASE_DIR / "user_files"
+MEDIA_URL = '/media/'

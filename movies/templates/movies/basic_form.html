@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vidly</title>
+</head>
+<body>
+    <h1>Movies Form</h1>
+    <form action = "" method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <h1>{{ field.non_field_errors }}</h1>
+        {{ form }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

@@ -17,6 +17,7 @@ urlpatterns = [
     path('purchase', views.purchase, name='purchase'),
     path('new/<str:title>/<int:release_year>/<int:number_in_stock>/<int:daily_rent>/<str:genre>/<str:description>', views.new, name="new"),
     path('movie_form', views.movie_form),
+    path('new', views.new_movie),
     path('thank_you', views.thank_you),
     path('update/<int:movie_id>', views.update_movie),
     path('hook-template', views.hook_template),

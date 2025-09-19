@@ -30,6 +30,7 @@ class Movie(models.Model):
     # date_edited = models.DateTimeField(auto_now=True)
     description = models.TextField()
     tags = models.ManyToManyField(to=Tag)
+    image = models.ImageField(upload_to="movie_images", default='movie_images/movie_cover_placeholder.png') # path to file, not file itself
 
     def __str__(self):
         return self.title

@@ -34,7 +34,7 @@ class MovieFormModel(forms.ModelForm):
     class Meta:
         model = Movie
         fields='__all__'
-        exclude=['genre']
+        # exclude=['genre']
         # can add the same fields here also
         labels=[],
         error_messages=[],

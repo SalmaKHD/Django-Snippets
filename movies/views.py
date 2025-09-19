@@ -53,7 +53,7 @@ def template(request):
     page_obj = paginator.get_page(page_number) # it will return the last page if nothing exists
     # queryset methods (for querying the database)
     # get object by id
-    print(movies.get(id=1))  # will raise an exception if more than 1 obj or no obj
+    print(movies.get(id=4))  # will raise an exception if more than 1 obj or no obj
     # get objects matching a condition
     print(Movie.objects.filter(title="Titanic"))
     # get objects not matching a condition
@@ -86,7 +86,7 @@ def template(request):
     print(Movie.objects.filter(title__istartswith='T')) # field look up
     print(Movie.objects.filter(id__in=[1,2])) # field look up
     # update a row in table
-    movie = Movie.objects.get(pk=1)
+    movie = Movie.objects.get(pk=4)
     movie.title = "Titanicc"
     movie.save()
     # update multiple rows
@@ -139,6 +139,17 @@ def movie_form(request):
         # form.save()
         return HttpResponseRedirect('thank_you')
     return render(request, 'movies/form.html', {'form': form}) # return form again if invalid
+
+def new_movie(request):
+    if request.method == 'POST':
+        form = MovieFormModel(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/movies/template')
+    else:
+        form = MovieFormModel()
+    return render(request, 'movies/basic_form.html', {'form': form})
+
 
 def thank_you(request):
     return HttpResponse("Thank you for submitting!")

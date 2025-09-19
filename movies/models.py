@@ -10,6 +10,10 @@ class Genre(models.Model):  # all functionalities for storing data in db are alr
         return self.name  # to change representation of obj in panel (when adding a record for example)
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
 
 # any class inheriting from the Model class represents a table in db
 class Movie(models.Model):
@@ -25,6 +29,7 @@ class Movie(models.Model):
     # alternative way to create date time field that will be automatically filled
     # date_edited = models.DateTimeField(auto_now=True)
     description = models.TextField()
+    tags = models.ManyToManyField(to=Tag)
 
     def __str__(self):
         return self.title

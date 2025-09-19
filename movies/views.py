@@ -107,7 +107,6 @@ def detail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
     return render(request, 'movies/detail.html', {'movie': movie})
 
-
 def purchase(request):
     # under construction
     raise Http404()  # will show default 404.html page if not in debug mode
@@ -169,3 +168,14 @@ def update_movie(request, movie_id):
 
 def hook_template(request):
     return TemplateResponse(request, 'movies/hook_template.html', {"name": "The Office"})
+
+def get_movies_with_genre(request, genre):
+    movies = Movie.objects.filter(genre__name = genre)
+    # or
+    # genre = Genre.objects.get(name=genre)
+    # movies = genre.movies.all() # movies_set is a model manager like objects
+    result = "No movies found"
+    if movies:
+        print(movies.first().genre)
+        result = movies
+    return HttpResponse(result)

@@ -19,5 +19,6 @@ urlpatterns = [
     path('movie_form', views.movie_form),
     path('thank_you', views.thank_you),
     path('update/<int:movie_id>', views.update_movie),
-    path('hook-template', views.hook_template)
+    path('hook-template', views.hook_template),
+    path('<str:genre>', views.get_movies_with_genre)
 ]

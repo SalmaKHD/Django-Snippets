@@ -1,9 +1,13 @@
 from django.contrib import admin
-from .models import Genre, Movie
+from .models import Genre, Movie, Tag
+
 
 # for customizing admin panel
 class GenreAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+
+class TagAdmin(admin.ModelAdmin):
+    pass
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
@@ -15,4 +19,5 @@ class MovieAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Genre, GenreAdmin)
+admin.site.register(Tag, TagAdmin)
 # admin.site.register(Movie, MovieAdmin)

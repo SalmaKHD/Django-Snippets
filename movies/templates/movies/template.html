@@ -5,6 +5,7 @@
         <tr>
             <th>Title</th>
             <th>Genre</th>
+            <th>Tags</th>
             <th>Stock</th>
             <th>Daily Rent</th>
         </tr>
@@ -15,6 +16,13 @@
         <!-- movies:detail referees to url with the name: movies_detail  -->
           <td><a href="{% url 'movies:detail' movie.id %}">{{ movie.title }}</a></td>
           <td>{{ movie.genre }}</td>
+          {% if movie.tags %}}
+          <td>
+              {% for tag in movie.tags.all %}
+                {{tag}},
+              {% endfor %}
+          </td>
+          {% endif %}}
           <td>{{ movie.number_in_stock }}</td>
           <td>{{ movie.daily_rent }}</td>
         </tr>

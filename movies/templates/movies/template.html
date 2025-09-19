@@ -19,10 +19,10 @@
           {% if movie.tags %}}
           <td>
               {% for tag in movie.tags.all %}
-                {{tag}},
+                {{ tag }}
               {% endfor %}
           </td>
-          {% endif %}}
+          {% endif %}
           <td>{{ movie.number_in_stock }}</td>
           <td>{{ movie.daily_rent }}</td>
         </tr>

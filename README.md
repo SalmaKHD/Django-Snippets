@@ -25,7 +25,8 @@ Tech Stack
 - tests for all features
 
 # Screenshots
-![home_search_detail_new-movie_reg-form](https://github.com/user-attachments/assets/95dbfd99-a52c-42a9-a454-85837d704800)
+![home_search](https://github.com/user-attachments/assets/071caf63-4a94-47ad-adec-28c04908f815)
+![detail_new-movie_reg-form](https://github.com/user-attachments/assets/6f7955aa-114d-4f26-a8ac-b45837e0ba73)
 
 ## License
 Licensed under the MIT License.

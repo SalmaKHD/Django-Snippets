@@ -46,7 +46,7 @@ def session(request):
     return HttpResponse(f"Session started. Session id is: {session_id}")
 
 def template(request):
-    query = request.GET.get('query', None) 
+    query = request.GET.get('query', None)
     per_page_item_number = 4
     if query:
         movies = Movie.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).order_by('id')

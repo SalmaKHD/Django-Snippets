@@ -43,7 +43,7 @@ def session(request):
     # we have to save changes in this case
     request.session.modifier = True
     print(f'Name of movie is: {request.session['dict']['name']}')
-    return HttpResponse(f"Session started. Session id is: {session_id}")
+    return HttpResponse(f"Session started. Session id is: {session_id}") 
 
 def template(request):
     query = request.GET.get('query', None)

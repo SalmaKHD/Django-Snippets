@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from . import views
 
@@ -21,6 +22,10 @@ urlpatterns = [
     path('thank_you', views.thank_you),
     path('update/<int:movie_id>', views.update_movie),
     path('hook-template', views.hook_template),
-    path('<str:genre>', views.get_movies_with_genre),
-    path("example_queries", views.example_queries)
+    path('by_genre/<str:genre>', views.get_movies_with_genre),
+    path('example_queries', views.example_queries),
+    path('movies-class', views.MovieView.as_view()),
+    path('about', views.AboutView.as_view(), name="about"),
+    path('about-redirect', views.RedirectAbout.as_view()),
+
 ]

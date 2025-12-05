@@ -1,10 +1,12 @@
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.db.models.aggregates import Max, Min
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.core.paginator import Paginator
+from django.views import View
+from django.views.generic import TemplateView, RedirectView
 
 from .forms import MoviesForm, MovieFormModel
 from .models import Movie, Genre
@@ -43,7 +45,7 @@ def session(request):
     # we have to save changes in this case
     request.session.modifier = True
     print(f'Name of movie is: {request.session['dict']['name']}')
-    return HttpResponse(f"Session started. Session id is: {session_id}") 
+    return HttpResponse(f"Session started. Session id is: {session_id}")
 
 def template(request):
     query = request.GET.get('query', None)
@@ -180,12 +182,12 @@ def update_movie(request, movie_id):
             return HttpResponse("Form saved successfully")
 
     form = MoviesForm(initial={'title':movie.title,
-                                   'release_year':movie.release_year,
-                                   'number_in_stock':movie.number_in_stock,
-                                   'daily_rent': movie.daily_rent,
-                                   'description': movie.description
-                                   }
-                          )
+                               'release_year':movie.release_year,
+                               'number_in_stock':movie.number_in_stock,
+                               'daily_rent': movie.daily_rent,
+                               'description': movie.description
+                               }
+                      )
     return render(request, 'movies/form.html', {'form': form})
 
 def hook_template(request):
@@ -201,3 +203,29 @@ def get_movies_with_genre(request, genre):
         print(movies.first().genre)
         result = movies
     return HttpResponse(result)
+
+# class-based views
+class MovieView(View):
+    def get(self, request):
+        form = MovieFormModel(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/movies/template')
+        return HttpResponse("invalid form")
+
+    def post(self, request):
+        form = MovieFormModel()
+        return render(request, 'movies/basic_form.html', {'form': form})
+
+class AboutView(TemplateView):
+    template_name ="movies/about.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company_name'] = "Something"
+        return context
+
+class RedirectAbout(RedirectView):
+    url = '/movies/about'
+    pattern_name = "about"
+    query_string = True # to pass query params also

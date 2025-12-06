@@ -1,7 +1,7 @@
 from django.urls import path
-from django.views.generic import TemplateView
 
 from . import views
+from .views import MoviesView, MovieFormView, MovieDetailView, AddMovieView, UpdateMovieView, DeleteMovieView
 
 # no need for specifying a prefix for each path
 app_name = 'movies' # for not having to prefix url names with app name to avoid calling urls inadvertently within other apps
@@ -27,5 +27,10 @@ urlpatterns = [
     path('movies-class', views.MovieView.as_view()),
     path('about', views.AboutView.as_view(), name="about"),
     path('about-redirect', views.RedirectAbout.as_view()),
-
+    path('movies', MoviesView.as_view()),
+    path('movie-details/<int:pk>', MovieDetailView.as_view()),
+    path('movie-form', MovieFormView.as_view()),
+    path('new-movie', AddMovieView.as_view()),
+    path('update-movie/<int:pk>', UpdateMovieView.as_view()),
+    path('delete-movie/<int:pk>', DeleteMovieView.as_view()),
 ]

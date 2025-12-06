@@ -6,7 +6,8 @@ from django.shortcuts import render, get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.views import View
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import TemplateView, RedirectView, ListView, DetailView, FormView, CreateView, UpdateView, \
+    DeleteView
 
 from .forms import MoviesForm, MovieFormModel
 from .models import Movie, Genre
@@ -229,3 +230,30 @@ class RedirectAbout(RedirectView):
     url = '/movies/about'
     pattern_name = "about"
     query_string = True # to pass query params also
+
+class MoviesView(ListView):
+    model = Movie
+    template_name = "movies/movies.html"
+
+class MovieDetailView(DetailView):
+    model = Movie
+
+class MovieFormView(FormView):
+    template_name = "movies/form.html"
+    form_class = MoviesForm
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+class AddMovieView(CreateView):
+    form_class = MoviesForm
+    template_name = "movies/form.html"
+
+class UpdateMovieView(UpdateView):
+    model = Movie
+    form_class = MoviesForm
+    template_name = "movies/form.html"
+
+class DeleteMovieView(DeleteView):
+    model = Movie

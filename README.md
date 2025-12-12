@@ -10,6 +10,8 @@ Fetches top news on Microsoft, Apple, Google, and Tesla.
   - Search feature: Allows searching for movies based on title or description
   - Pagination: Returns paginated items for movies list
   - Authentication: Sign-in and Sign-up features across website + protected features
+  - DRF: allows apis with JSON data for movie CRUD operations
+  - JWT: generates and returns access and refresh tokens using simplejwt and protects apis
   - Movie creation: Creating new movies with image upload for movie cover
 
 Tech Stack
@@ -18,6 +20,8 @@ Tech Stack
 - Admin
 - Paginator
 - Auth
+- DRF for APIs
+- Simple JWT for acceess and refresh tokens
 - Pillow for image upload
 
 ## Future Enhancements

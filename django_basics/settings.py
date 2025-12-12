@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os.path
 from pathlib import Path
 
-from django.conf.global_settings import SESSION_COOKIE_AGE, SESSION_EXPIRE_AT_BROWSER_CLOSE, MEDIA_ROOT, MEDIA_URL
-from django.template.context_processors import media
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -45,6 +42,13 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'rest_framework'
 ]
+
+# extra config for rest framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -11,7 +11,7 @@ from django.views.generic import TemplateView, RedirectView, ListView, DetailVie
 
 from .forms import MoviesForm, MovieFormModel
 from .models import Movie, Genre
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 
 from .serializers import MovieSerializer
 
@@ -266,3 +266,4 @@ class DeleteMovieView(DeleteView):
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all() # which data to work with
     serializer_class = MovieSerializer # specifies serializer
+    permission_classes = [permissions.IsAuthenticated]

@@ -11,6 +11,9 @@ from django.views.generic import TemplateView, RedirectView, ListView, DetailVie
 
 from .forms import MoviesForm, MovieFormModel
 from .models import Movie, Genre
+from rest_framework import viewsets
+
+from .serializers import MovieSerializer
 
 
 # Create your views here.
@@ -257,3 +260,9 @@ class UpdateMovieView(UpdateView):
 
 class DeleteMovieView(DeleteView):
     model = Movie
+
+# Django DRF
+# viewsets.ModelViewSet -> has everything we need -> all CRUD operations supported
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all() # which data to work with
+    serializer_class = MovieSerializer # specifies serializer

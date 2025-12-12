@@ -1,10 +1,14 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 from . import views
-from .views import MoviesView, MovieFormView, MovieDetailView, AddMovieView, UpdateMovieView, DeleteMovieView
+from .views import MoviesView, MovieFormView, MovieDetailView, AddMovieView, UpdateMovieView, DeleteMovieView, \
+    MovieViewSet
 
 # no need for specifying a prefix for each path
 app_name = 'movies' # for not having to prefix url names with app name to avoid calling urls inadvertently within other apps
+router = DefaultRouter() # for creating endpoints automatically
+router.register(r'movies-drf', MovieViewSet) # creates all endpoints
 
 # define url config
 urlpatterns = [
@@ -33,4 +37,6 @@ urlpatterns = [
     path('new-movie', AddMovieView.as_view()),
     path('update-movie/<int:pk>', UpdateMovieView.as_view()),
     path('delete-movie/<int:pk>', DeleteMovieView.as_view()),
+    path('', include(router.urls)) # example url: http://127.0.0.1:8000/api/movies-drf/11/
+
 ]

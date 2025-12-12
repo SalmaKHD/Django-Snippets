@@ -45,6 +45,6 @@ class CustomClassMiddleware:
     def process_template_response(self, request, response):
         print("Template response called")
         # can change context member values in this hook
-        response.context_data['context_from_template_hook'] = "Titanic is among popular movies"
-        response.context_data["name"] = "Titanic"
+        # response.context_data['context_from_template_hook'] = "Titanic is among popular movies"
+        # response.context_data["name"] = "Titanic"
         return response

@@ -28,7 +28,8 @@ from .views import home
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('movies/', include('movies.urls')), # specify that direct requests that start with movies/ to urls.py file in movies app
-    path('api/', include(MovieResource().urls)),
+    path('movie-api/', include(MovieResource().urls)),
+    path('api/', include('movies.urls')),
     path('', views.home),
     path('accounts/', include('accounts.urls'))
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

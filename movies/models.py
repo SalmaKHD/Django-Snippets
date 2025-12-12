@@ -18,19 +18,19 @@ class Tag(models.Model):
 # any class inheriting from the Model class represents a table in db
 class Movie(models.Model):
     title = models.CharField(max_length=255)
-    release_year = models.IntegerField()
-    number_in_stock = models.IntegerField()
+    release_year = models.PositiveIntegerField()
+    number_in_stock = models.PositiveIntegerField()
     daily_rent = models.FloatField()
     # may be set_null / protect also
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE) # one-to-one relationship
     # another way of defining
     # genre = models.OneToOneField(Genre, on_delete=models.CASCADE)
-    date_created = models.DateTimeField(default=timezone.now)
-    # alternative way to create date time field that will be automatically filled
-    # date_edited = models.DateTimeField(auto_now=True)
     description = models.TextField()
     tags = models.ManyToManyField(to=Tag)
     image = models.ImageField(upload_to="movie_images", default='movie_images/movie_cover_placeholder.png') # path to file, not file itself
+    date_created = models.DateTimeField(default=timezone.now)
+    # alternative way to create date time field that will be automatically filled
+    # date_created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title

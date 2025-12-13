@@ -14,4 +14,5 @@ urlpatterns = [
     path('auth-login', LoginView.as_view(redirect_authenticated_user=True)), # build-in login view,
     path('token', TokenObtainPairView.as_view(), name = 'token_obtain_pair'),
     path('token/refresh', TokenRefreshView.as_view(), name = 'token-refresh')
+
 ]

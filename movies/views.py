@@ -268,10 +268,17 @@ class DeleteMovieView(DeleteView):
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all() # which data to work with
     serializer_class = MovieSerializer # specifies serializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['genre__name']
     search_fields = ['title', 'genre__name']  # genre is a foreign key
     ordering_fields = ['release_year']
     ordering = ['release_year'] # default order
+    """
+    example queries
+    http://127.0.0.1:8000/movies/movies-drf/?page=3&page_size=3
+    http://127.0.0.1:8000/movies/movies-drf/?genre__name=fun
+    http://127.0.0.1:8000/movies/movies-drf/?search=the+office
+    http://127.0.0.1:8000/movies/movies-drf/?ordering=-release_year
+    """
 

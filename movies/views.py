@@ -8,6 +8,8 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView, RedirectView, ListView, DetailView, FormView, CreateView, UpdateView, \
     DeleteView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 from .forms import MoviesForm, MovieFormModel
 from .models import Movie, Genre
@@ -267,3 +269,9 @@ class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all() # which data to work with
     serializer_class = MovieSerializer # specifies serializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['genre__name']
+    search_fields = ['title', 'genre__name']  # genre is a foreign key
+    ordering_fields = ['release_year']
+    ordering = ['release_year'] # default order
+

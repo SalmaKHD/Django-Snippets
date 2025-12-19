@@ -13,6 +13,7 @@ Fetches top news on Microsoft, Apple, Google, and Tesla.
   - DRF: allows apis with JSON data for movie CRUD operations
   - JWT: generates and returns access and refresh tokens using simplejwt and protects apis
   - Movie creation: Creating new movies with image upload for movie cover
+  - Radis: used for caching movies every 5 mins
 
 Tech Stack
 - Python
@@ -23,6 +24,7 @@ Tech Stack
 - DRF for APIs
 - Simple JWT for acceess and refresh tokens
 - Pillow for image upload
+- Radis for caching
 
 ## Future Enhancements
 - better styling

@@ -6,9 +6,9 @@ from .views import MoviesView, MovieFormView, MovieDetailView, AddMovieView, Upd
     MovieViewSet
 
 # no need for specifying a prefix for each path
-app_name = 'movies' # for not having to prefix url names with app name to avoid calling urls inadvertently within other apps
+# app_name = 'movies' # for not having to prefix url names with app name to avoid calling urls inadvertently within other apps
 router = DefaultRouter() # for creating endpoints automatically
-router.register(r'movies-drf', MovieViewSet) # creates all endpoints
+router.register(r'movies-drf', MovieViewSet, basename="movie") # creates all endpoints
 
 # define url config
 urlpatterns = [

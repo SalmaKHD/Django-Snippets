@@ -4,7 +4,7 @@ from openpyexcel.styles.builtins import title
 from rest_framework import status
 from rest_framework.test import APITestCase
 from django.urls import reverse
-from movies.models import Movie, Genre
+from movies.models import Movie, Genre, Tag
 
 
 # Create your tests here.
@@ -17,7 +17,7 @@ class MovieApiTestCase(APITestCase):
         title="Something", release_year=1991, number_in_stock=12, daily_rent=45.0,
         genre=self.genre, description="some movie"
     )
-        self.list_url = reverse('movies:movies-drf-list')
+        self.list_url = reverse('movie-list')
 
     def test_list_movies_unuthenticated(self):
         response = self.client.get(self.list_url)
@@ -27,11 +27,16 @@ class MovieApiTestCase(APITestCase):
     def test_create_movie_as_admin(self):
         self.client.login(username='admin', password='password123')
         self.genre = Genre.objects.create(name="something")
+        tag1 = Tag.objects.create(name="Sci-Fi")
+        tag2 = Tag.objects.create(name="Adventure")
         data = {
             "title": "New Movie",
-            "year": 2024,
+            "release_year": 2024,
             "number_in_stock": 5,
-            "genre": self.genre
+            "genre": self.genre,
+            "daily_rent": 2.33,
+            "description": "something",
+            "tags": [tag1, tag2]
         }
         response = self.client.post(self.list_url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -40,6 +45,6 @@ class MovieApiTestCase(APITestCase):
     def test_create_movie_as_regular_user(self):
         self.client.login(username='user', password='password212')
         self.genre = Genre.objects.create(name="something")
-        data = {"title": "Forbidden Movie", "year": 2025, "number_in_stock": 1, "genre": self.genre}
+        data = {"title": "Forbidden Movie", "release_year": 2025, "number_in_stock": 1, "genre": self.genre}
         response = self.client.post(self.list_url, data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

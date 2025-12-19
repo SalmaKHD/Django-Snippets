@@ -5,7 +5,9 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView, RedirectView, ListView, DetailView, FormView, CreateView, UpdateView, \
     DeleteView
 from django_filters.rest_framework import DjangoFilterBackend
@@ -267,8 +269,8 @@ class DeleteMovieView(DeleteView):
 # viewsets.ModelViewSet -> has everything we need -> all CRUD operations supported
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = (Movie.objects.all() # which data to work with
-                .prefetch_related('tags') # optimization
-                .select_related('genre')) # optimization
+                .prefetch_related('tags') # optimization, for single joins rather than on each object
+                .select_related('genre')) # optimization, for single joins rather than on each object
     serializer_class = MovieSerializer # specifies serializer
     # permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -283,4 +285,8 @@ class MovieViewSet(viewsets.ModelViewSet):
     http://127.0.0.1:8000/movies/movies-drf/?search=the+office
     http://127.0.0.1:8000/movies/movies-drf/?ordering=-release_year
     """
+
+    @method_decorator(cache_page(60 * 5))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs) # Cache invalidated automatically on create/update/delete (DRF clears it).
 

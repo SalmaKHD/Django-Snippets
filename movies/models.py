@@ -34,8 +34,8 @@ class Movie(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields='release_year'),
-            models.Index(fields='genre'),
+            models.Index(fields=['release_year']),
+            models.Index(fields=['genre']),
             models.Index(fields=['genre', 'release_year'], name='genre_year_idx') # ?genre__name=Action&year=2023
         ]
         ordering = ['-date_created']

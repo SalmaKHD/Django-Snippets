@@ -9,6 +9,7 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 class MovieSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(allow_null=True, required=False)
     class Meta:
         model = Movie
         fields = '__all__'

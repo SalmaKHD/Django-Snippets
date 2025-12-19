@@ -266,7 +266,9 @@ class DeleteMovieView(DeleteView):
 # Django DRF
 # viewsets.ModelViewSet -> has everything we need -> all CRUD operations supported
 class MovieViewSet(viewsets.ModelViewSet):
-    queryset = Movie.objects.all() # which data to work with
+    queryset = (Movie.objects.all() # which data to work with
+                .prefetch_related('tags') # optimization
+                .select_related('genre')) # optimization
     serializer_class = MovieSerializer # specifies serializer
     # permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]

@@ -12,7 +12,7 @@ from django.views.generic import TemplateView, RedirectView, ListView, DetailVie
     DeleteView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
-
+from .tasks import send_movie_added_email
 from .forms import MoviesForm, MovieFormModel
 from .models import Movie, Genre
 from rest_framework import viewsets, permissions
@@ -290,3 +290,6 @@ class MovieViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs) # Cache invalidated automatically on create/update/delete (DRF clears it).
 
+    def perform_create(self, serializer):
+        movie = serializer.save()
+        send_movie_added_email.delay(movie.title)  # Run async

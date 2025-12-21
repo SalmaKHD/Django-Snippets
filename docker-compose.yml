@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   redis:
@@ -19,7 +18,7 @@ services:
 
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8001
     volumes:
       - .:/code
     ports:

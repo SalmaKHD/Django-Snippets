@@ -1,7 +1,7 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 
-from . import views
+from . import views, consumers
 from .views import MoviesView, MovieFormView, MovieDetailView, AddMovieView, UpdateMovieView, DeleteMovieView, \
     MovieViewSet
 
@@ -9,6 +9,9 @@ from .views import MoviesView, MovieFormView, MovieDetailView, AddMovieView, Upd
 # app_name = 'movies' # for not having to prefix url names with app name to avoid calling urls inadvertently within other apps
 router = DefaultRouter() # for creating endpoints automatically
 router.register(r'movies-drf', MovieViewSet, basename="movie") # creates all endpoints
+websocket_urlpatterns = [
+    re_path(r'ws/movies/', consumers.MovieNotificationConsumer.as_view()),
+]
 
 # define url config
 urlpatterns = [

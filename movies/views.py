@@ -16,7 +16,8 @@ from .tasks import send_movie_added_email
 from .forms import MoviesForm, MovieFormModel
 from .models import Movie, Genre
 from rest_framework import viewsets, permissions
-
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 from .serializers import MovieSerializer
 
 
@@ -293,3 +294,13 @@ class MovieViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         movie = serializer.save()
         send_movie_added_email.delay(movie.title)  # Run async
+
+        # Send real-time notification using web sockets
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            "movie_notifications",
+            {
+                "type": "movie_added",
+                "movie": MovieSerializer(movie).data
+            }
+        )
